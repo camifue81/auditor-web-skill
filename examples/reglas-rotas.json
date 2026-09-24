@@ -1,0 +1,5 @@
+{
+  "extensions": [".js", ".jsx"],
+  "rules": [
+    { "id": "sin-cerrar", "type": "regex", "pattern": "console.log(", "severity": "baja" }
+  ]
