@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Auditoría web · {{PROJECT}}</title>
+<style>
+  :root { --bg:#f6f7f9; --card:#fff; --text:#1d2330; --muted:#667085; --line:#e4e7ec;
+          --alta:#d92d20; --media:#dc6803; --baja:#1570ef; --good:#079455; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background:var(--bg); color:var(--text); }
+  header { background:#101828; color:#fff; padding:28px 32px; }
+  header h1 { margin:0 0 4px; font-size:22px; }
+  header p { margin:0; color:#98a2b3; font-size:14px; }
+  main { max-width:1100px; margin:0 auto; padding:24px 16px 48px; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin-bottom:24px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px; }
+  .card .n { font-size:28px; font-weight:700; }
+  .card .l { color:var(--muted); font-size:13px; }
+  .score.good .n { color:var(--good); } .score.ok .n { color:var(--media); } .score.bad .n { color:var(--alta); }
+  .n.alta { color:var(--alta); } .n.media { color:var(--media); } .n.baja { color:var(--baja); }
+  table { width:100%; border-collapse:collapse; background:var(--card); border:1px solid var(--line); border-radius:10px; overflow:hidden; font-size:14px; }
+  th, td { text-align:left; padding:10px 12px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { background:#f2f4f7; font-size:12px; text-transform:uppercase; color:var(--muted); }
+  tr.sev-alta td:first-child { border-left:4px solid var(--alta); }
+  tr.sev-media td:first-child { border-left:4px solid var(--media); }
+  tr.sev-baja td:first-child { border-left:4px solid var(--baja); }
+  .badge { color:#fff; padding:2px 8px; border-radius:99px; font-size:12px; text-transform:uppercase; }
+  .badge.alta { background:var(--alta); } .badge.media { background:var(--media); } .badge.baja { background:var(--baja); }
+  pre { margin:6px 0 0; background:#f2f4f7; padding:6px 8px; border-radius:6px; white-space:pre-wrap; word-break:break-all; font-size:12px; }
+  code { font-size:12px; }
+  .empty { text-align:center; color:var(--good); padding:32px; font-weight:600; }
+  .warnings { background:#fffaeb; border:1px solid #fedf89; border-radius:8px; padding:12px 28px; }
+  footer { color:var(--muted); font-size:12px; margin-top:24px; }
+  @media (max-width:700px) { th:nth-child(2), td:nth-child(2), th:nth-child(5), td:nth-child(5) { display:none; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Reporte de auditoría · {{PROJECT}}</h1>
+  <p>Generado por la skill <strong>web-audit</strong> el {{DATE}}</p>
+</header>
+<main>
+  <section class="cards">
+    <div class="card score {{SCORE_CLASS}}"><div class="n">{{SCORE}}/100</div><div class="l">{{GRADE}}</div></div>
+    <div class="card"><div class="n">{{FILES}}</div><div class="l">Archivos revisados</div></div>
+    <div class="card"><div class="n">{{TOTAL}}</div><div class="l">Hallazgos totales</div></div>
+    <div class="card"><div class="n alta">{{ALTA}}</div><div class="l">Severidad alta</div></div>
+    <div class="card"><div class="n media">{{MEDIA}}</div><div class="l">Severidad media</div></div>
+    <div class="card"><div class="n baja">{{BAJA}}</div><div class="l">Severidad baja</div></div>
+  </section>
+  {{WARNINGS}}
+  <table>
+    <thead><tr><th>Severidad</th><th>Categoría</th><th>Ubicación</th><th>Problema</th><th>Regla</th></tr></thead>
+    <tbody>
+{{ROWS}}
+    </tbody>
+  </table>
+  <footer>Puntaje = 100 − (10 × alta + 5 × media + 2 × baja). Cómo corregir cada regla: ver <code>references/reglas.md</code> de la skill.</footer>
+</main>
+</body>
+</html>

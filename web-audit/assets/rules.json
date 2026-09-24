@@ -1,0 +1,117 @@
+{
+  "version": 1,
+  "extensions": [".js", ".jsx", ".ts", ".tsx"],
+  "ignore_dirs": ["node_modules", "dist", "build", ".git", ".vite", "coverage"],
+  "max_file_kb": 500,
+  "penalties": { "alta": 10, "media": 5, "baja": 2 },
+  "rules": [
+    {
+      "id": "debugger",
+      "type": "regex",
+      "pattern": "^\\s*debugger\\s*;?",
+      "severity": "alta",
+      "category": "Depuración",
+      "message": "Sentencia 'debugger' olvidada: detiene la app si las DevTools están abiertas."
+    },
+    {
+      "id": "eval",
+      "type": "regex",
+      "pattern": "\\beval\\s*\\(",
+      "severity": "alta",
+      "category": "Seguridad",
+      "message": "Uso de eval(): permite ejecutar código arbitrario."
+    },
+    {
+      "id": "secreto-en-codigo",
+      "type": "regex",
+      "pattern": "(?i)(api[_-]?key|secret|password|passwd|token)\\s*[:=]\\s*['\"][^'\"]{8,}['\"]",
+      "severity": "alta",
+      "category": "Seguridad",
+      "message": "Posible credencial escrita directamente en el código."
+    },
+    {
+      "id": "inner-html",
+      "type": "regex",
+      "pattern": "dangerouslySetInnerHTML",
+      "severity": "media",
+      "category": "Seguridad",
+      "message": "dangerouslySetInnerHTML puede abrir la puerta a XSS si el contenido no está saneado."
+    },
+    {
+      "id": "igualdad-debil",
+      "type": "regex",
+      "pattern": "[^=!<>]==[^=]|!=[^=]",
+      "severity": "media",
+      "category": "Lógica",
+      "message": "Comparación con == o != (conversión implícita de tipos). Usa === o !==."
+    },
+    {
+      "id": "var",
+      "type": "regex",
+      "pattern": "^\\s*var\\s+\\w",
+      "severity": "baja",
+      "category": "Estilo",
+      "message": "Declaración con 'var'. Prefiere const o let."
+    },
+    {
+      "id": "url-http",
+      "type": "regex",
+      "pattern": "['\"`]http://(?!localhost|127\\.0\\.0\\.1)",
+      "severity": "media",
+      "category": "Seguridad",
+      "message": "URL con http:// sin cifrar. Usa https://."
+    },
+    {
+      "id": "console-log",
+      "type": "regex",
+      "pattern": "\\bconsole\\.(log|debug)\\s*\\(",
+      "severity": "baja",
+      "category": "Depuración",
+      "message": "console.log olvidado en el código."
+    },
+    {
+      "id": "alert",
+      "type": "regex",
+      "pattern": "(?<![\\w.])alert\\s*\\(",
+      "severity": "baja",
+      "category": "UX",
+      "message": "alert() bloquea la interfaz; usa un mensaje en pantalla."
+    },
+    {
+      "id": "todo",
+      "type": "regex",
+      "pattern": "(//|/\\*|\\{/\\*)\\s*(TODO|FIXME|HACK)\\b",
+      "severity": "baja",
+      "category": "Mantenimiento",
+      "message": "Comentario pendiente (TODO/FIXME/HACK)."
+    },
+    {
+      "id": "mutacion-estado",
+      "type": "check",
+      "severity": "alta",
+      "category": "React",
+      "message": "Se modifica directamente una variable de estado de useState. React puede no volver a renderizar."
+    },
+    {
+      "id": "map-sin-key",
+      "type": "check",
+      "severity": "media",
+      "category": "React",
+      "message": ".map() devuelve JSX sin la prop 'key'."
+    },
+    {
+      "id": "effect-sin-deps",
+      "type": "check",
+      "severity": "media",
+      "category": "React",
+      "message": "useEffect sin arreglo de dependencias: se ejecuta en cada render (riesgo de bucles)."
+    },
+    {
+      "id": "fetch-sin-errores",
+      "type": "check",
+      "severity": "media",
+      "category": "Datos/API",
+      "message": "Se usa fetch() pero el archivo no maneja errores (.catch o try/catch) ni revisa response.ok."
+    }
+  ]
+}
